@@ -1,0 +1,52 @@
+@if (isOpen) {
+  <div class="mobile-menu-backdrop" role="presentation" (click)="closeMenu()">
+    <section
+      class="mobile-menu"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="mobile-menu-title"
+      (click)="$event.stopPropagation()">
+      <header class="mobile-menu-header">
+        <h2 id="mobile-menu-title">{{ 'chooseGenre' | translate }}</h2>
+        <button
+          type="button"
+          class="mobile-menu-close"
+          aria-label="Close menu"
+          (click)="closeMenu()">&times;</button>
+      </header>
+
+      <div class="mobile-menu-content">
+        <div class="mobile-menu-field">
+          <label for="mobile-genre">{{ 'chooseGenre' | translate }}</label>
+          <app-select-input
+            id="mobile-genre"
+            [elements]="genres"
+            [selectedElement]="selectedGenre"
+            (selectChange)="genreChange.emit($event)">
+          </app-select-input>
+        </div>
+
+        <div class="mobile-menu-field">
+          <label for="mobile-beat">{{ 'chooseBeat' | translate : { genre: selectedGenre } }}</label>
+          <app-select-input
+            id="mobile-beat"
+            [elements]="beats"
+            [selectedElement]="selectedBeat"
+            (selectChange)="beatChange.emit($event)">
+          </app-select-input>
+        </div>
+
+        <div class="mobile-menu-field">
+          <label for="mobile-tempo">Tempo</label>
+          <input
+            id="mobile-tempo"
+            type="number"
+            min="1"
+            max="300"
+            [value]="bpm"
+            (change)="onBpmChange($event)" />
+        </div>
+      </div>
+    </section>
+  </div>
+}

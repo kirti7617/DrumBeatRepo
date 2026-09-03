@@ -30,6 +30,7 @@ import { SelectInputComponent } from '../select-input/select-input.component';
 import { ExportAudioModalComponent } from '../modals/export-audio-modal/export-audio-modal.component';
 import { ExportMidiModalComponent } from '../modals/export-midi-modal/export-midi-modal.component';
 import { BrowseAudioSamplesModalComponent } from '../modals/browse-audio-samples-modal/browse-audio-samples-modal.component';
+import { MobileMenuComponent } from '../mobile-menu/mobile-menu.component';
 
 import { SequencerService } from '../../services/sequencer/sequencer.service';
 import { BeatMetadata } from 'src/types/engine';
@@ -41,7 +42,7 @@ import { IManageBeatsToken } from "../../../infrastructure/injection-tokens/i-ma
   standalone: true,
   templateUrl: './sequencer.component.html',
   styleUrls: ['./sequencer.component.scss'],
-  imports: [BpmInputComponent, SelectInputComponent, FormsModule, TranslatePipe, ExportAudioModalComponent, ExportMidiModalComponent, BrowseAudioSamplesModalComponent, NgOptimizedImage, DrumImagePipe, IconDarkModePipe, NgClass],
+  imports: [BpmInputComponent, SelectInputComponent, FormsModule, TranslatePipe, ExportAudioModalComponent, ExportMidiModalComponent, BrowseAudioSamplesModalComponent, MobileMenuComponent, NgOptimizedImage, DrumImagePipe, IconDarkModePipe, NgClass],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SequencerComponent implements AfterViewInit, OnInit, OnDestroy {
@@ -60,6 +61,7 @@ export class SequencerComponent implements AfterViewInit, OnInit, OnDestroy {
   isAudioExportModalOpen = false;
   isMidiExportModalOpen = false;
   isBrowseAudioSamplesModalOpen = false;
+  isMobileMenuOpen = false;
 
   constructor(@Inject(AUDIO_ENGINE) public readonly soundService: IAudioEngine,
     @Inject(AUDIO_EXPORT) public readonly audioExportAdapter: IAudioExport,
@@ -255,6 +257,16 @@ export class SequencerComponent implements AfterViewInit, OnInit, OnDestroy {
   changeBeatBpm($event: number): void {
     this.soundService.pause();
     void this.sequencerService.dispatch({ type: 'SET_TEMPO', payload: { tempo: $event } });
+  }
+
+  openMobileMenu(): void {
+    this.isMobileMenuOpen = true;
+    this.cdr.markForCheck();
+  }
+
+  closeMobileMenu(): void {
+    this.isMobileMenuOpen = false;
+    this.cdr.markForCheck();
   }
 
   addTrack(): void {

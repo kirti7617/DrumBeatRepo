@@ -1,4 +1,20 @@
 <div class="main-container">
+  <div class="mobile-sequencer-header">
+    <img
+      src="assets/images/title-mobile.svg"
+      class="mobile-sequencer-title"
+      alt="Website Title" />
+    <button
+      type="button"
+      class="mobile-menu-button"
+      aria-label="Open menu"
+      (click)="openMobileMenu()">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+
   <div class="sequencer-header">
     <div class="flex label bpm-input-group">
       <button class="play-pause-button cursor-pointer app-button" (click)="this.soundService.playPause()">
@@ -93,6 +109,19 @@
       }}</button>
   </section>
 </div>
+
+<app-mobile-menu
+  [isOpen]="isMobileMenuOpen"
+  [genres]="sequencerService.genresLabel"
+  [selectedGenre]="sequencerService.vm$.getValue().genre"
+  [beats]="sequencerService.vm$.getValue().beats"
+  [selectedBeat]="sequencerService.vm$.getValue().beat"
+  [bpm]="tempoService.bpm"
+  (genreChange)="genreChange($event)"
+  (beatChange)="beatChange($event)"
+  (bpmChange)="changeBeatBpm($event)"
+  (close)="closeMobileMenu()">
+</app-mobile-menu>
 
 <app-export-modal [isOpen]="isAudioExportModalOpen" [beatName]="beat.label" (close)="isAudioExportModalOpen = false"
   (validate)="onAudioExport($event)">
